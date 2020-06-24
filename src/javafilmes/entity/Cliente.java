@@ -3,21 +3,21 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package javafilmes.model.entity;
+package javafilmes.entity;
 
 /**
  *
  * @author Jefferson
  */
 public class Cliente {
-    
+
     private Integer id;
     private String nome;
     private String sobrenome;
     private String apelido;
     private String cpf;
     private boolean ehAdmin;
-    
+
     public Cliente(String nome, String sobrenome, String apelido, String cpf, boolean ehAdmin) {
         this.nome = nome;
         this.sobrenome = sobrenome;
@@ -25,18 +25,15 @@ public class Cliente {
         this.cpf = cpf;
         this.ehAdmin = ehAdmin;
     }
-    
+
     public Cliente() {
-        
+
     }
 
     public String getNome() {
         return nome;
     }
 
-    /**
-     * @param nome the nome to set
-     */
     public void setNome(String nome) {
         this.nome = nome;
     }
@@ -115,5 +112,5 @@ public class Cliente {
     public void setEhAdmin(boolean ehAdmin) {
         this.ehAdmin = ehAdmin;
     }
-    
+
 }

@@ -3,11 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package javafilmes.controller;
+package javafilmes.main;
 
-import javafilmes.model.dao.ClienteSQLite;
-import javafilmes.model.dao.SQLiteBase;
-import javafilmes.model.entity.Cliente;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -19,16 +16,14 @@ import javafx.stage.Stage;
  * @author Jefferson
  */
 public class JavaFilmes extends Application {
-    
-    
+
     @Override
     public void start(Stage stage) throws Exception {
-        
-        
-        Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
-       
+
+        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("javafilmes/pages/FXMLClientes.fxml"));
+
         Scene scene = new Scene(root);
-        
+
         stage.setScene(scene);
         stage.show();
     }
@@ -39,5 +34,5 @@ public class JavaFilmes extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-    
+
 }
