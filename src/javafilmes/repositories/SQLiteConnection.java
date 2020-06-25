@@ -16,9 +16,9 @@ public class SQLiteConnection {
     public Connection open() {
         try {
             String url = "jdbc:sqlite:my_database.db";
-            if (this.connection == null) {
-                this.connection = DriverManager.getConnection(url);
-            }
+//            if (this.connection == null) {
+            this.connection = DriverManager.getConnection(url);
+//            }
         } catch (SQLException ex) {
             ex.printStackTrace();
         }

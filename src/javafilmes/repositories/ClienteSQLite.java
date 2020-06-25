@@ -5,9 +5,11 @@
  */
 package javafilmes.repositories;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import javafilmes.entity.Cliente;
@@ -20,50 +22,87 @@ public class ClienteSQLite extends SQLiteConnection {
 
     public ClienteSQLite() throws SQLException {
 
-        open();
-        try {
-            PreparedStatement stm = connection.prepareStatement("CREATE TABLE IF NOT EXISTS Clientes ("
-                    + "id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,"
-                    + "nome VARCHAR(80),"
-                    + "sobrenome VARCHAR(80),"
-                    + "apelido VARCHAR(80),"
-                    + "cpf VARCHAR(80),"
-                    + "ehAdmin INTEGER );");
-            stm.executeQuery();
-        } catch (SQLException ex) {
-            ex.getMessage();
-        } finally {
-            close();
-        }
+        String sql = "CREATE TABLE IF NOT EXISTS Clientes ("
+                + "id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,"
+                + "nome VARCHAR(80),"
+                + "sobrenome VARCHAR(80),"
+                + "apelido VARCHAR(80),"
+                + "cpf VARCHAR(80),"
+                + "ehAdmin INTEGER );";
 
+        try (Connection conn = open();
+                Statement stmt = conn.createStatement()) {
+
+            stmt.execute(sql);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
-    public void create(Cliente c) throws SQLException {
-        open();
-        try {
-            PreparedStatement stm = connection.prepareStatement("INSERT INTO Clientes VALUES(?,?,?,?,?,?);");
-            stm.setString(2, c.getNome());
-            stm.setString(3, c.getSobrenome());
-            stm.setString(4, c.getApelido());
-            stm.setString(5, c.getCpf());
+    public void create(Cliente c) {
+
+        String sql = "INSERT INTO Clientes(nome,sobrenome,apelido,cpf,ehAdmin) VALUES(?,?,?,?,?)";
+        try (Connection conn = open();
+                PreparedStatement stm = conn.prepareStatement(sql)) {
+
+            stm.setString(1, c.getNome());
+            stm.setString(2, c.getSobrenome());
+            stm.setString(3, c.getApelido());
+            stm.setString(4, c.getCpf());
             int flag = (c.isEhAdmin() == true) ? 1 : 0;
-            stm.setInt(6, flag);
+            stm.setInt(5, flag);
+
             stm.executeUpdate();
         } catch (SQLException e) {
-            e.getMessage();
-        } finally {
-            close();
+            System.out.println(e.getMessage());
         }
     }
 
-    public List<Cliente> all() throws SQLException {
+    public void update(Cliente c) {
+
+        String sql = "UPDATE Clientes SET nome=?, sobrenome=?, apelido=?, cpf=?, ehAdmin=? WHERE id=?";
+        try (Connection conn = open();
+                PreparedStatement stm = conn.prepareStatement(sql)) {
+
+            stm.setString(1, c.getNome());
+            stm.setString(2, c.getSobrenome());
+            stm.setString(3, c.getApelido());
+            stm.setString(4, c.getCpf());
+            int flag = (c.isEhAdmin() == true) ? 1 : 0;
+            stm.setInt(5, flag);
+            stm.setInt(6, c.getId());
+
+            stm.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public boolean remove(Cliente c) {
+
+        String sql = "DELETE FROM Clientes WHERE id=?";
+        try (Connection conn = open();
+                PreparedStatement stm = conn.prepareStatement(sql)) {
+
+            stm.setInt(1, c.getId());
+            stm.executeUpdate();
+            return true;
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+    }
+
+    public List<Cliente> all() {
         ArrayList<Cliente> clientes = new ArrayList<>();
 
-        open();
-        try {
-            PreparedStatement stm = connection.prepareStatement("SELECT * FROM Clientes ORDER BY id ASC;");
-            ResultSet rs = stm.executeQuery();
+        String sql = "SELECT * FROM Clientes ORDER BY id ASC;";
 
+        try {
+            Connection conn = open();
+            PreparedStatement stm = conn.prepareStatement(sql);
+            ResultSet rs = stm.executeQuery();
             while (rs.next()) {
                 Cliente c = new Cliente();
                 c.setId(rs.getInt(1));
@@ -78,9 +117,7 @@ public class ClienteSQLite extends SQLiteConnection {
             }
             stm.executeUpdate();
         } catch (SQLException e) {
-            e.getMessage();
-        } finally {
-            close();
+            System.out.println(e.getMessage());
         }
 
         return clientes;
