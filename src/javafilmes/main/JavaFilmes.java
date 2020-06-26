@@ -20,7 +20,7 @@ public class JavaFilmes extends Application {
     @Override
     public void start(Stage stage) throws Exception {
 
-        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("javafilmes/pages/FXMLClientes.fxml"));
+        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("javafilmes/pages/FXMLFilmes.fxml"));
 
         Scene scene = new Scene(root);
 

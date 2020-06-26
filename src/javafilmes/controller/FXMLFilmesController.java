@@ -5,14 +5,29 @@
  */
 package javafilmes.controller;
 
+import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
+import java.util.List;
 import java.util.ResourceBundle;
-import javafx.event.ActionEvent;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafilmes.entity.Filme;
+import javafilmes.repositories.FilmeSQLite;
+import javafilmes.utils.Messages;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -22,37 +37,130 @@ import javafx.scene.control.TextField;
 public class FXMLFilmesController implements Initializable {
 
     @FXML
+    private TableView<Filme> tableView;
+
+    @FXML
+    private TableColumn<Filme, String> tableColummNome;
+
+    @FXML
+    private TableColumn<Filme, String> tableColummDuracao;
+
+    @FXML
     private Label textRegister;
 
     @FXML
-    private Label textRegister1;
+    private Label labelNome;
 
     @FXML
-    private TextField textName;
+    private Label labelDescricao;
 
     @FXML
-    private Label textRegister11;
+    private Label labelDuracao;
 
     @FXML
-    private TextField textDescrition;
+    private Button buttonInserir;
 
     @FXML
-    private Label textRegister12;
+    private Button buttonAlterar;
 
     @FXML
-    private TextField textDuraction;
+    private Button buttonRemover;
+    FilmeSQLite database = null;
 
-    @FXML
-    private Button button;
-
-    @FXML
-    void handleButtonAction(ActionEvent event) {
-
-    }
+    private List<Filme> listFilmes;
+    private ObservableList<Filme> observableListFilme;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        try {
+            database = new FilmeSQLite();
+        } catch (SQLException ex) {
+            Logger.getLogger(FXMLFilmesController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        carregarTableViewFilme();
+        tableView.getSelectionModel().selectedItemProperty().addListener(
+                (observable, oldValue, newValue) -> selecionarItemTableViewFilmes(newValue));
+    }
+
+    public void carregarTableViewFilme() {
+        tableColummNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
+        tableColummDuracao.setCellValueFactory(new PropertyValueFactory<>("duracao"));
+
+        listFilmes = database.all();
+        observableListFilme = FXCollections.observableArrayList(listFilmes);
+        tableView.setItems(observableListFilme);
+    }
+
+    public void selecionarItemTableViewFilmes(Filme filme) {
+        if (filme != null) {
+            labelNome.setText(String.valueOf(filme.getNome()));
+            labelDescricao.setText(filme.getDescricao());
+            labelDuracao.setText(filme.getDuracao());
+
+        } else {
+            labelNome.setText("");
+            labelDescricao.setText("");
+            labelDuracao.setText("");
+        }
+
+    }
+
+    @FXML
+    public void handleButtonInserir() throws IOException {
+        Filme filme = new Filme();
+        boolean buttonConfirmarClicked = showFXMLAnchorPaneCadastrosFilmesDialog(filme);
+        if (buttonConfirmarClicked) {
+            database.create(filme);
+            carregarTableViewFilme();
+        }
+    }
+
+    @FXML
+    public void handleButtonAlterar() throws IOException {
+        Filme filme = tableView.getSelectionModel().getSelectedItem();
+        if (filme != null) {
+            boolean buttonConfirmarClicked = showFXMLAnchorPaneCadastrosFilmesDialog(filme);
+            if (buttonConfirmarClicked) {
+                database.update(filme);
+                carregarTableViewFilme();
+            }
+        } else {
+            Messages.messageAlertChooseClient();
+        }
+    }
+
+    @FXML
+    public void handleButtonRemover() throws IOException {
+        Filme filme = tableView.getSelectionModel().getSelectedItem();
+        if (filme != null) {
+            database.remove(filme);
+            carregarTableViewFilme();
+        } else {
+            Messages.messageAlertChooseClient();
+        }
+    }
+
+    public boolean showFXMLAnchorPaneCadastrosFilmesDialog(Filme filme) throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(FXMLFilmesDialogController.class.getResource("/javafilmes/pages/FXMLFilmeCadastro.fxml"));
+        AnchorPane page = (AnchorPane) loader.load();
+
+        // Criando um Estágio de Diálogo (Stage Dialog)
+        Stage dialogStage = new Stage();
+        dialogStage.setTitle("Cadastro de Filmes");
+        Scene scene = new Scene(page);
+        dialogStage.setScene(scene);
+
+        // Setando o cliente no Controller.
+        FXMLFilmesDialogController controller = loader.getController();
+        controller.setDialogStage(dialogStage);
+        controller.setFilme(filme);
+
+        // Mostra o Dialog e espera até que o usuário o feche
+        dialogStage.showAndWait();
+
+        return controller.isButtonConfirmarClicked();
+
     }
 
 }

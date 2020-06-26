@@ -37,4 +37,16 @@ public class Messages {
         alert.show();
     }
 
+    public static void messageAlertDuracaoIncorret() {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Erro no nome");
+        alert.show();
+    }
+
+    public static void messageAlertDescricaoIncorret() {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Erro no nome");
+        alert.show();
+    }
+
 }
