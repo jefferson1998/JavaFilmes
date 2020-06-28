@@ -16,13 +16,14 @@ import javafilmes.entity.Filme;
 
 public class FilmeSQLite extends SQLiteConnection {
 
-    public FilmeSQLite() throws SQLException {
+    public void FilmeSQLite() throws SQLException {
 
         String sql = "CREATE TABLE IF NOT EXISTS Filmes ("
-                + "id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,"
+                + "id_filme INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,"
                 + "nome VARCHAR(80),"
                 + "descricao VARCHAR(80),"
-                + "duracao VARCHAR(80));";
+                + "duracao VARCHAR(80),"
+                + "disponivel INTEGER);";
 
         try (Connection conn = open();
                 Statement stmt = conn.createStatement()) {
@@ -35,13 +36,15 @@ public class FilmeSQLite extends SQLiteConnection {
 
     public void create(Filme f) {
 
-        String sql = "INSERT INTO Filmes(nome,descricao,duracao) VALUES(?,?,?)";
+        String sql = "INSERT INTO Filmes(nome,descricao,duracao, disponivel) VALUES(?,?,?,?)";
         try (Connection conn = open();
                 PreparedStatement stm = conn.prepareStatement(sql)) {
 
             stm.setString(1, f.getNome());
             stm.setString(2, f.getDescricao());
             stm.setString(3, f.getDuracao());
+            int flag = (f.isDisponivel() == true) ? 1 : 0;
+            stm.setInt(4, flag);
 
             stm.executeUpdate();
         } catch (SQLException e) {
@@ -51,15 +54,16 @@ public class FilmeSQLite extends SQLiteConnection {
 
     public void update(Filme f) {
 
-        String sql = "UPDATE Filmes SET nome=?, descricao=?, duracao=? WHERE id=?";
+        String sql = "UPDATE Filmes SET nome=?, descricao=?, duracao=?, disponivel=? WHERE id=?";
         try (Connection conn = open();
                 PreparedStatement stm = conn.prepareStatement(sql)) {
 
             stm.setString(1, f.getNome());
             stm.setString(2, f.getDescricao());
             stm.setString(3, f.getDuracao());
-            stm.setInt(4, f.getId());
-
+            int flag = (f.isDisponivel() == true) ? 1 : 0;
+            stm.setInt(4, flag);
+            stm.setInt(5, f.getId());
             stm.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());

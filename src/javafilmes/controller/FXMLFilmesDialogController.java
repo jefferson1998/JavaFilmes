@@ -8,12 +8,14 @@ package javafilmes.controller;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafilmes.entity.Filme;
-import javafilmes.utils.Messages;
+import javafilmes.util.Messages;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 import javafx.stage.Stage;
 
 /**
@@ -37,6 +39,9 @@ public class FXMLFilmesDialogController implements Initializable {
     @FXML
     private Button buttonCancelar;
 
+    @FXML
+    private ToggleGroup disponivel;
+
     private Stage dialogStage;
     private boolean buttonConfirmarClicked = false;
     private Filme filme;
@@ -48,11 +53,20 @@ public class FXMLFilmesDialogController implements Initializable {
 
     @FXML
     void handleButtonConfirmar(ActionEvent event) {
+
         if (validarEntradaDeDados()) {
+            RadioButton radio = (RadioButton) disponivel.getSelectedToggle();
 
             filme.setNome(textNome.getText());
             filme.setDescricao(textDescricao.getText());
             filme.setDuracao(textDuracao.getText());
+            boolean flag;
+            if (radio.getText().equals("Sim")) {
+                flag = true;
+            } else {
+                flag = false;
+            }
+            filme.setDisponivel(flag);
 
             buttonConfirmarClicked = true;
             dialogStage.close();
@@ -104,6 +118,9 @@ public class FXMLFilmesDialogController implements Initializable {
      */
     public void setFilme(Filme filme) {
         this.filme = filme;
+        this.textNome.setText(filme.getNome());
+        this.textDescricao.setText(filme.getNome());
+        this.textDuracao.setText(filme.getDuracao());
     }
 
     private boolean validarEntradaDeDados() {

@@ -2,14 +2,11 @@ package javafilmes.controller;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafilmes.entity.Cliente;
 import javafilmes.repositories.ClienteSQLite;
-import javafilmes.utils.Messages;
+import javafilmes.util.Messages;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -72,11 +69,8 @@ public class FXMLClientesController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
-        try {
-            database = new ClienteSQLite();
-        } catch (SQLException ex) {
-            Logger.getLogger(FXMLClientesController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        database = new ClienteSQLite();
+
         carregarTableViewCliente();
         tableView.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> selecionarItemTableViewClientes(newValue));

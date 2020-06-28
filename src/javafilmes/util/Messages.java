@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package javafilmes.utils;
+package javafilmes.util;
 
 import javafx.scene.control.Alert;
 
@@ -39,13 +39,19 @@ public class Messages {
 
     public static void messageAlertDuracaoIncorret() {
         Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Erro no nome");
+        alert.setTitle("Erro no Duração");
         alert.show();
     }
 
     public static void messageAlertDescricaoIncorret() {
         Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Erro no nome");
+        alert.setTitle("Erro no Descricao");
+        alert.show();
+    }
+
+    public static void messageAlertSenhaIncorret() {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Erro na senha");
         alert.show();
     }
 

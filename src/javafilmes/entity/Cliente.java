@@ -17,13 +17,15 @@ public class Cliente {
     private String apelido;
     private String cpf;
     private boolean ehAdmin;
+    private String senha;
 
-    public Cliente(String nome, String sobrenome, String apelido, String cpf, boolean ehAdmin) {
+    public Cliente(String nome, String sobrenome, String apelido, String cpf, boolean ehAdmin, String senha) {
         this.nome = nome;
         this.sobrenome = sobrenome;
         this.apelido = apelido;
         this.cpf = cpf;
         this.ehAdmin = ehAdmin;
+        this.senha = senha;
     }
 
     public Cliente() {
@@ -111,6 +113,20 @@ public class Cliente {
      */
     public void setEhAdmin(boolean ehAdmin) {
         this.ehAdmin = ehAdmin;
+    }
+
+    /**
+     * @return the senha
+     */
+    public String getSenha() {
+        return senha;
+    }
+
+    /**
+     * @param senha the senha to set
+     */
+    public void setSenha(String senha) {
+        this.senha = senha;
     }
 
 }

@@ -7,14 +7,11 @@ package javafilmes.controller;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafilmes.entity.Filme;
 import javafilmes.repositories.FilmeSQLite;
-import javafilmes.utils.Messages;
+import javafilmes.util.Messages;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -58,6 +55,9 @@ public class FXMLFilmesController implements Initializable {
     private Label labelDuracao;
 
     @FXML
+    private Label labelDisponivel;
+
+    @FXML
     private Button buttonInserir;
 
     @FXML
@@ -72,11 +72,9 @@ public class FXMLFilmesController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        try {
-            database = new FilmeSQLite();
-        } catch (SQLException ex) {
-            Logger.getLogger(FXMLFilmesController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+
+        database = new FilmeSQLite();
+
         carregarTableViewFilme();
         tableView.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> selecionarItemTableViewFilmes(newValue));
@@ -96,11 +94,14 @@ public class FXMLFilmesController implements Initializable {
             labelNome.setText(String.valueOf(filme.getNome()));
             labelDescricao.setText(filme.getDescricao());
             labelDuracao.setText(filme.getDuracao());
+            labelDisponivel.setText(filme.isDisponivel() == true ? "sim" : "não");
 
         } else {
             labelNome.setText("");
             labelDescricao.setText("");
             labelDuracao.setText("");
+            labelDisponivel.setText("");
+
         }
 
     }

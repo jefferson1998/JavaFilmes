@@ -11,34 +11,33 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="355.0" prefWidth="584.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javafilmes.controller.FXMLFilmesController">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javafilmes.controller.FXMLRentMoviesController">
    <children>
-      <SplitPane dividerPositions="0.26804123711340205" layoutX="21.0" layoutY="48.0" prefHeight="355.0" prefWidth="584.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <items>
-            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+      <SplitPane dividerPositions="0.29797979797979796" layoutX="59.0" layoutY="82.0" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                <children>
-                  <TableView fx:id="tableView" prefHeight="353.0" prefWidth="191.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                     <columns>
-                        <TableColumn fx:id="tableColummNome" prefWidth="75.0" text="Nome" />
-                        <TableColumn fx:id="tableColummDuracao" prefWidth="75.0" text="Duração" />
-                     </columns>
+                  <TableView fx:id="tableView" layoutX="-25.0" prefHeight="398.0" prefWidth="175.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <columns>
+                      <TableColumn fx:id="tableColummNome" prefWidth="75.0" text="Filmes" />
+                      <TableColumn fx:id="tableColummDisponivel" prefWidth="75.0" text="Disponível" />
+                    </columns>
                   </TableView>
                </children>
             </AnchorPane>
-            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="400.0" prefWidth="600.0">
                <children>
                   <Label fx:id="textRegister" layoutX="113.0" layoutY="22.0" minHeight="16" minWidth="69" text="Detalhes do Filme">
                      <font>
                         <Font size="23.0" />
                      </font>
                   </Label>
-                  <GridPane layoutX="91.0" layoutY="86.0" prefHeight="114.0" prefWidth="243.0">
+                  <GridPane layoutX="91.0" layoutY="86.0" prefHeight="95.0" prefWidth="243.0">
                      <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                      </columnConstraints>
                      <rowConstraints>
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -50,16 +49,12 @@
                         <Label fx:id="labelDescricao" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                         <Label text="Duração" GridPane.rowIndex="2" />
                         <Label fx:id="labelDuracao" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                        <Label text="Disponível" GridPane.rowIndex="3" />
-                        <Label fx:id="labelDisponivel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                      </children>
                   </GridPane>
-                  <Button fx:id="buttonInserir" layoutX="91.0" layoutY="297.0" mnemonicParsing="false" onAction="#handleButtonInserir" text="Inserir" />
-                  <Button fx:id="buttonAlterar" layoutX="164.0" layoutY="297.0" mnemonicParsing="false" onAction="#handleButtonAlterar" text="Alterar" />
-                  <Button fx:id="buttonRemover" layoutX="238.0" layoutY="297.0" mnemonicParsing="false" onAction="#handleButtonRemover" text="Remover" />
+                  <Button fx:id="buttonRent" layoutX="213.0" layoutY="199.0" mnemonicParsing="false" onAction="#handleButtonRent" text="Alugar" />
                </children>
             </AnchorPane>
-         </items>
+        </items>
       </SplitPane>
    </children>
 </AnchorPane>

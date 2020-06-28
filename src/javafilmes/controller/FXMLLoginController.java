@@ -5,9 +5,22 @@
  */
 package javafilmes.controller;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafilmes.entity.Cliente;
+import javafilmes.repositories.ClienteSQLite;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -16,12 +29,49 @@ import javafx.fxml.Initializable;
  */
 public class FXMLLoginController implements Initializable {
 
-    /**
-     * Initializes the controller class.
-     */
+    @FXML
+    private AnchorPane conteudo;
+
+    @FXML
+    private TextField labelUsernam;
+
+    @FXML
+    private PasswordField labelPassoword;
+
+    @FXML
+    private Button buttonLogin;
+
+    @FXML
+    private AnchorPane anchorPane;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+    }
+
+    @FXML
+    void handerLogin(ActionEvent event) throws IOException {
+        Parent myNewScene = null;
+        Stage stage = new Stage();
+        Stage stage2 = new Stage();
+        System.out.println("javafilmes.controller.FXMLLoginController.handerLogin()");
+
+        ClienteSQLite database = new ClienteSQLite();
+        Cliente c = database.checkLoginPassword(labelUsernam.getText(), labelPassoword.getText());
+
+        if (c.isEhAdmin()) {
+
+            myNewScene = FXMLLoader.load(getClass().getResource("/javafilmes/pages/FXMLMenuController.fxml"));
+            Scene scene = new Scene(myNewScene);
+            stage.setScene(scene);
+            stage.setTitle("My New Scene");
+            stage.show();
+        } else {
+            myNewScene = FXMLLoader.load(getClass().getResource("/javafilmes/pages/FXMLRentMovies.fxml"));
+            Scene scene = new Scene(myNewScene);
+            stage.setScene(scene);
+            stage.setTitle("My New Scene");
+            stage.show();
+        }
     }
 
 }

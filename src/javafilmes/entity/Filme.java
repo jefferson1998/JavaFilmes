@@ -10,21 +10,22 @@ package javafilmes.entity;
  * @author Jefferson
  */
 public class Filme {
-    
+
     private Integer id;
     private String nome;
     private String descricao;
     private String duracao;
-    
-    
-    public Filme(String nome, String descricao, String duracao) {
+    private boolean disponivel;
+
+    public Filme(String nome, String descricao, String duracao, boolean disponivel) {
         this.nome = nome;
         this.descricao = descricao;
         this.duracao = duracao;
+        this.disponivel = disponivel;
     }
-    
+
     public Filme() {
-        
+
     }
 
     public Integer getId() {
@@ -79,6 +80,19 @@ public class Filme {
     public void setDuracao(String duracao) {
         this.duracao = duracao;
     }
-    
-    
+
+    /**
+     * @return the disponivel
+     */
+    public boolean isDisponivel() {
+        return disponivel;
+    }
+
+    /**
+     * @param disponivel the disponivel to set
+     */
+    public void setDisponivel(boolean disponivel) {
+        this.disponivel = disponivel;
+    }
+
 }
