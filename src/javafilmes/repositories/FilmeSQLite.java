@@ -13,13 +13,14 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import javafilmes.entity.Filme;
+import javafx.scene.image.Image;
 
 public class FilmeSQLite extends SQLiteConnection {
 
     public void FilmeSQLite() throws SQLException {
 
         String sql = "CREATE TABLE IF NOT EXISTS Filmes ("
-                + "id_filme INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,"
+                + "id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,"
                 + "nome VARCHAR(80),"
                 + "descricao VARCHAR(80),"
                 + "duracao VARCHAR(80),"
@@ -101,7 +102,12 @@ public class FilmeSQLite extends SQLiteConnection {
                 f.setNome(rs.getString(2));
                 f.setDescricao(rs.getString(3));
                 f.setDuracao(rs.getString(4));
-
+                if (rs.getInt(5) == 1) {
+//                   javafilmes.main.JavaFilmes.class.getResource("/javafilmes/resource/nao_visto.png");
+                    f.setImagem(new Image("/javafilmes/resource/nao_visto.png"));
+                } else {
+                    f.setImagem(new Image("/javafilmes/resource/visto.png"));
+                }
                 filmes.add(f);
             }
             stm.executeUpdate();

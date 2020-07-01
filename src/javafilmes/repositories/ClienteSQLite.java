@@ -13,6 +13,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import javafilmes.entity.Cliente;
+import javafilmes.util.Exceptions;
 
 /**
  *
@@ -23,7 +24,7 @@ public class ClienteSQLite extends SQLiteConnection {
     public void ClienteSQLite() throws SQLException {
 
         String sql = "CREATE TABLE IF NOT EXISTS Clientes ("
-                + "id_cliente INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,"
+                + "id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,"
                 + "nome VARCHAR(80),"
                 + "sobrenome VARCHAR(80),"
                 + "apelido VARCHAR(80),"
@@ -112,7 +113,7 @@ public class ClienteSQLite extends SQLiteConnection {
                 c.setNome(rs.getString(2));
                 c.setSobrenome(rs.getString(3));
                 c.setApelido(rs.getString(4));
-                c.setCpf(rs.getString(5));
+                c.setCpf(Exceptions.imprimeCPF(rs.getString(5)));
                 boolean flag2 = (rs.getInt(6) == 1) ? true : false;
                 c.setEhAdmin(flag2);
                 c.setSenha(rs.getString(7));

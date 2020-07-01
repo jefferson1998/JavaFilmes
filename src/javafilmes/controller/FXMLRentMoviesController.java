@@ -17,9 +17,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 /**
  * FXML Controller class
@@ -35,7 +38,7 @@ public class FXMLRentMoviesController implements Initializable {
     private TableColumn<Filme, String> tableColummNome;
 
     @FXML
-    private TableColumn<Filme, Boolean> tableColummDisponivel;
+    private TableColumn<Filme, Image> tableColummDisponivel;
 
     @FXML
     private Label textRegister;
@@ -73,10 +76,25 @@ public class FXMLRentMoviesController implements Initializable {
 
     public void carregarTableViewFilme() {
         tableColummNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
-        tableColummDisponivel.setCellValueFactory(new PropertyValueFactory<>("disponivel"));
-
+        tableColummDisponivel.setCellFactory(param -> {
+            ImageView imageview = new ImageView();
+            imageview.setFitHeight(50);
+            imageview.setFitWidth(50);
+            TableCell<Filme, Image> cell = new TableCell<Filme, Image>() {
+                @Override
+                public void updateItem(Image i, boolean empty) {
+                    if (i != null) {
+                        System.out.println(".updateItem()");
+                        imageview.setImage(i);
+                    }
+                }
+            };
+            cell.setGraphic(imageview);
+            return cell;
+        });
         listFilmes = database.all();
         observableListFilme = FXCollections.observableArrayList(listFilmes);
+        tableColummDisponivel.setCellValueFactory(new PropertyValueFactory<Filme, Image>("filme"));
         tableView.setItems(observableListFilme);
     }
 
@@ -85,7 +103,6 @@ public class FXMLRentMoviesController implements Initializable {
             labelNome.setText(String.valueOf(filme.getNome()));
             labelDescricao.setText(filme.getDescricao());
             labelDuracao.setText(filme.getDuracao());
-//            labelDisponivel.setText(filme.isDisponivel() == true ? "não" : "sim");
 
         } else {
             labelNome.setText("");

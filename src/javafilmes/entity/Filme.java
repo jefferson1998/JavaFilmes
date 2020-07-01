@@ -5,6 +5,8 @@
  */
 package javafilmes.entity;
 
+import javafx.scene.image.Image;
+
 /**
  *
  * @author Jefferson
@@ -16,6 +18,8 @@ public class Filme {
     private String descricao;
     private String duracao;
     private boolean disponivel;
+    private Image imagem;
+
 
     public Filme(String nome, String descricao, String duracao, boolean disponivel) {
         this.nome = nome;
@@ -93,6 +97,20 @@ public class Filme {
      */
     public void setDisponivel(boolean disponivel) {
         this.disponivel = disponivel;
+    }
+
+    /**
+     * @return the imagem
+     */
+    public Image getImagem() {
+        return imagem;
+    }
+
+    /**
+     * @param imagem the imagem to set
+     */
+    public void setImagem(Image imagem) {
+        this.imagem = imagem;
     }
 
 }

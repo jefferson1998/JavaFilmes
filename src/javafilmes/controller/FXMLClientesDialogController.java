@@ -90,7 +90,7 @@ public class FXMLClientesDialogController implements Initializable {
         if (validarEntradaDeDados()) {
 
             cliente.setNome(textNome.getText());
-            cliente.setCpf(Exceptions.imprimeCPF(textCpf.getText()));
+            cliente.setCpf(textCpf.getText());
             cliente.setSobrenome(textSobrenome.getText());
             cliente.setApelido(textApelido.getText());
             cliente.setSenha(textSenha.getText());

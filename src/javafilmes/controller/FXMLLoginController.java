@@ -52,24 +52,23 @@ public class FXMLLoginController implements Initializable {
     void handerLogin(ActionEvent event) throws IOException {
         Parent myNewScene = null;
         Stage stage = new Stage();
-        Stage stage2 = new Stage();
         System.out.println("javafilmes.controller.FXMLLoginController.handerLogin()");
 
         ClienteSQLite database = new ClienteSQLite();
         Cliente c = database.checkLoginPassword(labelUsernam.getText(), labelPassoword.getText());
-
+        System.out.println(c.isEhAdmin());
         if (c.isEhAdmin()) {
-
+            
             myNewScene = FXMLLoader.load(getClass().getResource("/javafilmes/pages/FXMLMenuController.fxml"));
             Scene scene = new Scene(myNewScene);
             stage.setScene(scene);
-            stage.setTitle("My New Scene");
+            stage.setTitle("Menu");
             stage.show();
-        } else {
+        } else if (!c.isEhAdmin()) {
             myNewScene = FXMLLoader.load(getClass().getResource("/javafilmes/pages/FXMLRentMovies.fxml"));
             Scene scene = new Scene(myNewScene);
             stage.setScene(scene);
-            stage.setTitle("My New Scene");
+            stage.setTitle("Alugar Filmes");
             stage.show();
         }
     }
