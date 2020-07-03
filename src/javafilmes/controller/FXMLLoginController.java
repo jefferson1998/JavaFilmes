@@ -10,6 +10,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafilmes.entity.Cliente;
 import javafilmes.repositories.ClienteSQLite;
+import javafilmes.util.Messages;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -44,6 +45,8 @@ public class FXMLLoginController implements Initializable {
     @FXML
     private AnchorPane anchorPane;
 
+    private Stage stage = new Stage();
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
     }
@@ -51,26 +54,56 @@ public class FXMLLoginController implements Initializable {
     @FXML
     void handerLogin(ActionEvent event) throws IOException {
         Parent myNewScene = null;
-        Stage stage = new Stage();
-        System.out.println("javafilmes.controller.FXMLLoginController.handerLogin()");
 
         ClienteSQLite database = new ClienteSQLite();
-        Cliente c = database.checkLoginPassword(labelUsernam.getText(), labelPassoword.getText());
-        System.out.println(c.isEhAdmin());
-        if (c.isEhAdmin()) {
-            
-            myNewScene = FXMLLoader.load(getClass().getResource("/javafilmes/pages/FXMLMenuController.fxml"));
-            Scene scene = new Scene(myNewScene);
-            stage.setScene(scene);
-            stage.setTitle("Menu");
-            stage.show();
-        } else if (!c.isEhAdmin()) {
-            myNewScene = FXMLLoader.load(getClass().getResource("/javafilmes/pages/FXMLRentMovies.fxml"));
-            Scene scene = new Scene(myNewScene);
-            stage.setScene(scene);
-            stage.setTitle("Alugar Filmes");
-            stage.show();
+        Cliente c = database.checkLoginPassword(getLabelUsernam().getText(), labelPassoword.getText());
+        if (c.getId() != null) {
+            FXMLRentMoviesController.pegarUser(database.getId(labelUsernam.getText()).getId());
+            if (c.isEhAdmin()) {
+                myNewScene = FXMLLoader.load(getClass().getResource("/javafilmes/pages/FXMLMenuController.fxml"));
+                Scene scene = new Scene(myNewScene);
+                getStage().setScene(scene);
+                getStage().setTitle("Menu");
+                getStage().show();
+            } else if (!c.isEhAdmin()) {
+                myNewScene = FXMLLoader.load(getClass().getResource("/javafilmes/pages/FXMLRentMovies.fxml"));
+                Scene scene = new Scene(myNewScene);
+                getStage().setScene(scene);
+                getStage().setTitle("Alugar Filmes");
+                getStage().show();
+            }
+        } else {
+            Messages.messageAlertNoHaveUser();
         }
+
+    }
+
+    /**
+     * @return the stage
+     */
+    public Stage getStage() {
+        return stage;
+    }
+
+    /**
+     * @param stage the stage to set
+     */
+    public void setStage(Stage stage) {
+        this.stage = stage;
+    }
+
+    /**
+     * @return the labelUsernam
+     */
+    public TextField getLabelUsernam() {
+        return labelUsernam;
+    }
+
+    /**
+     * @param labelUsernam the labelUsernam to set
+     */
+    public void setLabelUsernam(TextField labelUsernam) {
+        this.labelUsernam = labelUsernam;
     }
 
 }

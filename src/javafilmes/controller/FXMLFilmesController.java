@@ -7,6 +7,7 @@ package javafilmes.controller;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafilmes.entity.Filme;
@@ -107,7 +108,7 @@ public class FXMLFilmesController implements Initializable {
     }
 
     @FXML
-    public void handleButtonInserir() throws IOException {
+    public void handleButtonInserir() throws IOException, SQLException {
         Filme filme = new Filme();
         boolean buttonConfirmarClicked = showFXMLAnchorPaneCadastrosFilmesDialog(filme);
         if (buttonConfirmarClicked) {
@@ -117,7 +118,7 @@ public class FXMLFilmesController implements Initializable {
     }
 
     @FXML
-    public void handleButtonAlterar() throws IOException {
+    public void handleButtonAlterar() throws IOException, SQLException {
         Filme filme = tableView.getSelectionModel().getSelectedItem();
         if (filme != null) {
             boolean buttonConfirmarClicked = showFXMLAnchorPaneCadastrosFilmesDialog(filme);
@@ -131,7 +132,7 @@ public class FXMLFilmesController implements Initializable {
     }
 
     @FXML
-    public void handleButtonRemover() throws IOException {
+    public void handleButtonRemover() throws IOException, SQLException {
         Filme filme = tableView.getSelectionModel().getSelectedItem();
         if (filme != null) {
             database.remove(filme);

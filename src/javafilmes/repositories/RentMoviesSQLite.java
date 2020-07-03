@@ -20,19 +20,18 @@ public class RentMoviesSQLite extends SQLiteConnection {
 
         String sql = "CREATE TABLE IF NOT EXISTS RentMovies ("
                 + "id_locacao INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,"
-                + "id_cliente"
-                + "id_filme);";
+                + "id_cliente INTEGER,"
+                + "id_filme INTEGER);";
 
         try (Connection conn = open();
                 Statement stmt = conn.createStatement()) {
-
             stmt.execute(sql);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
     }
 
-    public void rent(int id_cliente, int id_filme) {
+    public void rent(int id_cliente, int id_filme) throws SQLException {
 
         String sql = "INSERT INTO RentMovies (id_cliente,id_filme) VALUES(?,?)";
         try (Connection conn = open();
@@ -44,9 +43,8 @@ public class RentMoviesSQLite extends SQLiteConnection {
             stm.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-        }
+        } 
+
     }
-    
-    
 
 }

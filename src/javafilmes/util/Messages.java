@@ -54,5 +54,23 @@ public class Messages {
         alert.setTitle("Erro na senha");
         alert.show();
     }
+    
+    public static void messageAlertFilmeNoSelectIncorret() {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Erro ao selecionar Filme");
+        alert.show();
+    }
+    
+    public static void messageAlertNoHaveUser() {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Não existe esse usuário");
+        alert.show();
+    }
+    
+    public static void messageAlertFilmRent() {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Filme não disponível");
+        alert.show();
+    }
 
 }

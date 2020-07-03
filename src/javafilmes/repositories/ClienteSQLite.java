@@ -157,4 +157,33 @@ public class ClienteSQLite extends SQLiteConnection {
 
         return c;
     }
+    
+    public Cliente getId(String cpf) {
+        String sql = "SELECT id FROM Clientes WHERE cpf=?;";
+        Cliente c = new Cliente();
+        try {
+            Connection conn = open();
+            PreparedStatement stm = conn.prepareStatement(sql);
+            stm.setString(1, cpf);
+            ResultSet rs = stm.executeQuery();
+
+            while (rs.next()) {
+                c.setId(rs.getInt(1));
+                c.setNome(rs.getString(2));
+                c.setSobrenome(rs.getString(3));
+                c.setApelido(rs.getString(4));
+                c.setCpf(rs.getString(5));
+                boolean flag2 = (rs.getInt(6) == 1) ? true : false;
+                c.setEhAdmin(flag2);
+                c.setSenha(rs.getString(7));
+
+            }
+            stm.executeUpdate();
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        return c;
+    }
 }

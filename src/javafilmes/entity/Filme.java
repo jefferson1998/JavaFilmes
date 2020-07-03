@@ -20,7 +20,6 @@ public class Filme {
     private boolean disponivel;
     private Image imagem;
 
-
     public Filme(String nome, String descricao, String duracao, boolean disponivel) {
         this.nome = nome;
         this.descricao = descricao;
@@ -111,6 +110,11 @@ public class Filme {
      */
     public void setImagem(Image imagem) {
         this.imagem = imagem;
+    }
+
+    @Override
+    public String toString() {
+        return nome;
     }
 
 }

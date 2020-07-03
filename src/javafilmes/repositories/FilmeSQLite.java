@@ -35,7 +35,7 @@ public class FilmeSQLite extends SQLiteConnection {
         }
     }
 
-    public void create(Filme f) {
+    public void create(Filme f) throws SQLException {
 
         String sql = "INSERT INTO Filmes(nome,descricao,duracao, disponivel) VALUES(?,?,?,?)";
         try (Connection conn = open();
@@ -53,7 +53,7 @@ public class FilmeSQLite extends SQLiteConnection {
         }
     }
 
-    public void update(Filme f) {
+    public void update(Filme f) throws SQLException {
 
         String sql = "UPDATE Filmes SET nome=?, descricao=?, duracao=?, disponivel=? WHERE id=?";
         try (Connection conn = open();
@@ -71,7 +71,7 @@ public class FilmeSQLite extends SQLiteConnection {
         }
     }
 
-    public boolean remove(Filme f) {
+    public boolean remove(Filme f) throws SQLException {
 
         String sql = "DELETE FROM Filmes WHERE id=?";
         try (Connection conn = open();
@@ -103,10 +103,9 @@ public class FilmeSQLite extends SQLiteConnection {
                 f.setDescricao(rs.getString(3));
                 f.setDuracao(rs.getString(4));
                 if (rs.getInt(5) == 1) {
-//                   javafilmes.main.JavaFilmes.class.getResource("/javafilmes/resource/nao_visto.png");
-                    f.setImagem(new Image("/javafilmes/resource/nao_visto.png"));
-                } else {
                     f.setImagem(new Image("/javafilmes/resource/visto.png"));
+                } else {
+                    f.setImagem(new Image("/javafilmes/resource/nao_visto.png"));
                 }
                 filmes.add(f);
             }
@@ -116,6 +115,48 @@ public class FilmeSQLite extends SQLiteConnection {
         }
 
         return filmes;
+    }
+
+    public Filme getId(String nome) throws SQLException {
+        String sql = "SELECT * FROM Filmes WHERE nome=?;";
+        Filme f = new Filme();
+        try {
+            Connection conn = open();
+            PreparedStatement stm = conn.prepareStatement(sql);
+            stm.setString(1, nome);
+            ResultSet rs = stm.executeQuery();
+
+            while (rs.next()) {
+                f.setId(rs.getInt(1));
+                f.setNome(rs.getString(2));
+                f.setDescricao(rs.getString(3));
+                f.setDuracao(rs.getString(4));
+                boolean flag2 = (rs.getInt(5) == 1) ? true : false;
+                f.setDisponivel(flag2);
+
+            }
+            stm.executeUpdate();
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return f;
+    }
+    
+    public void rent(int id_cliente, int id_filme) throws SQLException {
+
+        String sql = "INSERT INTO RentMovies (id_cliente,id_filme) VALUES(?,?)";
+        try (Connection conn = open();
+                PreparedStatement stm = conn.prepareStatement(sql)) {
+
+            stm.setInt(1, id_cliente);
+            stm.setInt(2, id_filme);
+
+            stm.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } 
+
     }
 
 }
